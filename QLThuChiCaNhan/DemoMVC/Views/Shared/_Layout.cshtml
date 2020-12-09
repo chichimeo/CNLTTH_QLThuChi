@@ -3,40 +3,100 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <title>@ViewBag.Title - Expense Manager</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .logo-image {
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+        }
+
+        .navbar-brand {
+            margin-left: 6rem;
+        }
+
+        .header ul {
+            margin-left: 50px;
+        }
+
+            .header ul li {
+                margin-left: 30px;
+            }
+
+        .profile_details {
+            margin-left: 350px;
+            margin-right: 6rem;
+        }
+
+        .user_image {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+    </style>
 </head>
+
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-            </div>
-        </div>
+    <div class="header">
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark ">
+            <!-- Brand/logo -->
+            <a class="navbar-brand" href="@Url.Action("Index")">
+                <img class="logo-image" src="/images/Logo.png" alt="Logo">
+                <span>ExpanseManager</span>
+            </a>
+            <!-- Links -->
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="@Url.Action("Index")">Sổ giao dịch</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("ExpenseReport")">Báo cáo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Contact")">Liên hệ</a>
+                </li>
+                <li class="nav-item dropdown" style="margin-left: 330px; margin-right: 6rem;">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        <img class="user_image" src="/images/user.png" alt="Hinh ảnh user">
+                        Người dùng
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">
+                            <i class="fa fa-user"></i>   Tài khoản
+                        </a> 
+                        <a class="dropdown-item" href="@Url.Action("Login","Account")">
+                            <i class="fa fa-sign-in"></i>   Đăng nhập
+                        </a>
+                        <a class="dropdown-item" href= "@Url.Action("Logout", "Account")">
+                            <i class="fa fa-sign-out"></i>  Đăng xuất
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
     </div>
+
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    <br /><br />
+    <div class="footer bg-dark text-white">
+        <br />
+        <footer style="text-align: center;">
+            <p>&copy; @DateTime.Now.Year  - ExpenseManager</p>
+        </footer>
+        <br />
+    </div>
+    @*@Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")*@
     @RenderSection("scripts", required: false)
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -1,0 +1,58 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Đăng nhập</title>
+    <link href="~/Content/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- css files -->
+    <!-- Online-fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&amp;subset=latin-ext,vietnamese"
+          rel="stylesheet">
+    <!-- //Online-fonts -->
+</head>
+<body>
+    <!-- Main Content -->
+    <div class="main">
+        <div class="main-w3l">
+            <h1 class="logo-w3">Expense Manager</h1>
+            <div class="w3layouts-main">
+                <h2><span>Đăng nhập</span></h2>
+                <form action="/Account/Login" method="post">
+                    <input placeholder="Tên đăng nhập" name="username" type="text" required="">
+                    <input placeholder="Mật khẩu" name="password" type="password" id="password1" required="">
+                    <input type="submit" value="Đăng nhập" name="login">
+                    <div class="noaccount_register" style="margin-top:20px;">
+                        <span style="color:white; ">Chưa có tài khoản?</span>
+                        <a href="/Account/Register" class="register" style="color: #00ffd0e0">Đăng ký</a>
+                    </div>
+                </form>
+            </div>
+            <!-- //main -->
+            <!--footer-->
+            <div class="footer-w3l">
+                <p>&copy;  @DateTime.Now.Year  - ExpenseManager</p>
+            </div>
+            <!--//footer-->
+
+        </div>
+    </div>
+    <!-- //Main Content -->
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+
+</body>
+
+</html>
