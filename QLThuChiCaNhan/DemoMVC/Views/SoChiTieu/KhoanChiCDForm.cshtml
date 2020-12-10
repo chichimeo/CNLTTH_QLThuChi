@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "KhoanChiCDForm";
+    var loaikhoanchi = ViewBag.listkhoanchi;
+    var khoanchi = ViewBag.khoanchi;
+    var length = ViewBag.length;
+}
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" rel="stylesheet">
+
+<div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <form id="khoanchicd">
+                <input type="hidden" value="@khoanchi.makhoanchi" name="makhoanchi" />
+                <input id="maloaichi" type="hidden" value="@khoanchi.maloaichi" name="maloaichi" />
+                <div class="form-group">
+                    <label asp-for="Loai" class="control-label">Loại khoản chi</label>
+                    <select id="select" asp-for="maloaichi" class="form-control" name="tenloaichi" onchange="changeloai()">
+                        @foreach (var item in loaikhoanchi)
+                        {
+                            <option name="tenloaichi">@item.tenloaichi</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Ten" class="control-label">Tên Khoản Chi</label>
+                    <input asp-for="tenkhoanthucd" class="form-control" value="@khoanchi.tenkhoanchi" name="tenkhoanchi" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Tien" class="control-label">Tiền Chi</label>
+                    <input asp-for="tienchicd" class="form-control" type="number" value="@khoanchi.tienchicd" name="tienchicd" />
+                </div>
+                <div class="form-group" id="calender-container">
+                    <label asp-for="thangbd" class="control-label">Tháng Bắt Đầu</label>
+                    <div class="input-group date">
+                        <input asp-for="thangbd" type="text" value="@khoanchi.thangbd" class="form-control" name="thangbd"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </div>
+                <div class="form-group" id="calender-container">
+                    <label asp-for="ThangKT" class="control-label">Tháng Kết Thúc</label>
+                    <div class="input-group date">
+                        <input asp-for="thangkt" type="text" value="@khoanchi.thangkt" name="thangkt" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="button" id="btnkccdSubmit" class="btn btn-block btn-info">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,7 @@
 ﻿
 @{
+    /**/
+
     ViewBag.Title = "ChiTieu";
     var khoanchi = ViewBag.khoanchi;
     var khoanthu = ViewBag.khoanthu;
@@ -8,54 +10,298 @@
 }
 @using DemoMVC.SoChiTieu;
 
-<h2>ChiTieu</h2>
-<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img src="~/images/banner1.svg" alt="ASP.NET" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    Learn how to build ASP.NET apps that can run anywhere.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" rel="stylesheet">
+
+<div class="row">
+    <h2 class="col-lg-7">Chi tiêu cá nhân</h2>
+
+    <div style="float:right;display: inline-block;    margin-top: 20px;
+    margin-bottom: 10px;">
+        <form asp-controller="SoChiTieu" asp-action="ChiTieu" class="form-group form-inline">
+            <input class="form-control mr-sm-2" type="text" name="SearchString" placeholder="Nhập thông tin...">
+            <button class="btn btn-info" type="submit">Tìm kiếm</button>
+        </form>
+    </div>
+</div>
+<br />
+<div class="group-tabs">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active nav-item"><a class="nav-link " href="#home" aria-controls="home" role="tab" data-toggle="tab">Khoản chi cố định</a></li>
+        <li role="presentation" class="nav-item"><a class="nav-link " href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Khoản thu cố định</a></li>
+        <li role="presentation"class="nav-item"><a class="nav-link " href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Khoản chi</a></li>
+        <li role="presentation"class="nav-item"><a class="nav-link " href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Khoản thu</a></li>
+    </ul>
+    <br />
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="home">
+            <div style="float:left">
+                <button class="btn btn-primary" onclick="AddEditKhoanChiCD(0)">Thêm khoản chi cố định</button>
             </div>
+            <br /><br/>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Mã</th>
+                        <th>Tên khoản</th>
+                        <th>Số tiền</th>
+                        <th>Loại Chi</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in khoanchicd)
+                    {
+
+                        <tr>
+                            <td>@item.makhoanchi</td>
+                            <td>@item.tenkhoanchi</td>
+                            <td>@item.tienchicd.ToString("N0")</td>
+                            <td>@item.tenloaichi</td>
+                            <td>
+                                <button class="btn btn-info" onclick="AddEditKhoanChiCD(@item.makhoanchi)">Edit</button>
+                                <button class="btn btn-danger" onclick="DeleteExpense(@item.makhoanchi,0)">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
         </div>
-        <div class="item">
-            <img src="~/images/banner2.svg" alt="Visual Studio" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    There are powerful new features in Visual Studio for building modern web apps.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525030&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
+        <div role="tabpanel" class="tab-pane" id="profile">
+            <div style="float:left">
+                <button class="btn btn-primary" onclick="AddEditKhoanThuCD(0)">Thêm khoản thu cố định</button>
+            </div><br /><br />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Mã</th>
+                        <th>Tên khoản</th>
+                        <th>Số tiền</th>
+                        <th>Loại thu</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in khoanthucd)
+                    {
+
+                        <tr>
+                            <td>@item.makhoanthucd</td>
+                            <td>@item.tenkhoanthucd</td>
+                            <td>@item.tienthucd.ToString("N0")</td>
+                            <td>@item.tenloaithu</td>
+                            <td>
+                                <button class="btn btn-info" onclick="AddEditKhoanThuCD(@item.makhoanthucd)">Edit</button>
+                                <button class="btn btn-danger" onclick="DeleteExpense(@item.makhoanthucd,1)">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="messages">
+            <div style="float:left">
+                <button class="btn btn-primary" onclick="AddEditExpenses(0)">Thêm khoản chi</button>
+            </div><br /><br />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Mã</th>
+                        <th>Tên khoản</th>
+                        <th>Số tiền</th>
+                        <th>Ngày chi</th>
+                        <th>Loại Chi</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in khoanchi)
+                    {
+
+                        <tr>
+                            <td>@item.makhoanchi</td>
+                            <td>@item.tenkhoanchi</td>
+                            <td>@item.tienchi.ToString("N0")</td>
+                            <td>@item.ngaychi</td>
+                            <td>@item.tenloaichi</td>
+                            <td>
+                                <button class="btn btn-default" onclick="AddEditExpenses(@item.makhoanchi)">Edit</button>
+                                <button class="btn btn-danger" onclick="DeleteExpense(@item.makhoanchi, 2)">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="settings">
+
+            <div style="float:left">
+                <button class="btn btn-primary" onclick="AddEditExpenses(0)">Thêm khoản thu</button>
+            </div> <br /><br />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Mã</th>
+                        <th>Tên khoản</th>
+                        <th>Số tiền</th>
+                        <th>Ngày chi</th>
+                        <th>Loại Chi</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in khoanthu)
+                    {
+
+                        <tr>
+                            <td>@item.makhoanthu</td>
+                            <td>@item.tenkhoanthu</td>
+                            <td>@item.tienthu.ToString("N0")</td>
+                            <td>@item.ngaythu</td>
+                            <td>@item.tenloaithu</td>
+                            <td>
+                                <button class="btn btn-default" onclick="AddEditExpenses(@item.makhoanthu)">Edit</button>
+                                <button class="btn btn-danger" onclick="DeleteExpense(@item.makhoanthu,3)">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<br />
+<br />
+<br />
+<br />
+
+
+
+<div class="modal fade" id="expenseFormModel" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Khoản Chi Cố Định</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-        </div>
-        <div class="item">
-            <img src="~/images/banner3.svg" alt="Microsoft Azure" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    Learn how Microsoft's Azure cloud platform allows you to build, deploy, and scale web apps.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525027&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
+            <div class="modal-body" id="expenseFormModelDiv">
             </div>
         </div>
     </div>
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
 </div>
+
+<div class="modal fade" id="expenseFormModelKTCD" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Khoản Thu Cố Định</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="expenseFormModelKTCDDiv">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var AddEditKhoanChiCD = function (itemId) {
+        var url = "/SoChiTieu/AddEditKhoanChiCD?itemId=" + itemId;
+        if (itemId > 0)
+            $('#title').html("Edit Expense");
+
+        $("#expenseFormModelDiv").load(url, function () {
+            $("#expenseFormModel").modal("show");
+
+        });
+
+        $('#expenseFormModel').on('shown.bs.modal', function () {
+
+            $('#calender-container .input-group.date').datepicker({
+                todayBtn: true,
+                calendarWeeks: true,
+                todayHighlight: true,
+                autoclose: true,
+                container: '#expenseFormModel modal-body'
+            });
+
+        });
+    }
+    var AddEditKhoanThuCD = function (itemId) {
+        var url = "/SoChiTieu/AddEditKhoanThuCD?itemId=" + itemId;
+        if (itemId > 0)
+            $('#title').html("Edit Expense");
+
+        $("#expenseFormModelKTCDDiv").load(url, function () {
+            $("#expenseFormModelKTCD").modal("show");
+
+        });
+
+        $('#expenseFormModelKTCD').on('shown.bs.modal', function () {
+
+            $('#calender-container .input-group.date').datepicker({
+                todayBtn: true,
+                calendarWeeks: true,
+                todayHighlight: true,
+                autoclose: true,
+                container: '#expenseFormModelKTCD modal-body'
+            });
+
+        });
+    }
+    var ReportExpense = function () {
+        var url = "/Expense/ExpenseSummary";
+
+        $("#expenseReportModalDiv").load(url, function () {
+            $("#expenseReportModal").modal("show");
+        })
+    }
+
+    var DeleteExpense = function (itemId, ma) {
+
+        var ans = confirm("Do you want to delete item with Item Id: " + itemId);
+
+        if (ans) {
+            console.log("xóa")
+            $.ajax({
+                type: "POST",
+                url: "/SoChiTieu/Delete?itemId=" + itemId + "&ma=" + ma,
+                success: function () {
+                    window.location.href = "/SoChiTieu/ChiTieu";
+                    alert("Xóa thành công");
+                }
+            })
+        }
+    }
+
+</script>
+
+
+<script>
+
+    $('body').on('click', "#btnkccdSubmit", function () {
+        var myformdata = $("#khoanchicd").serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "/SoChiTieu/CreateUpdateKCCD",
+            data: myformdata,
+            success: function () {
+                $("#myModal").modal("hide");
+                window.location.href = "/SoChiTieu/ChiTieu";
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        })
+    })
+</script>
