@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using DemoMVC.DangNhap;
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -38,7 +40,9 @@
         }
     </style>
 </head>
-
+@{ 
+    var user = (NguoiDung)Session["User"];
+}
 <body>
     <div class="header">
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark ">
@@ -59,21 +63,39 @@
                     <a class="nav-link" href="@Url.Action("Contact")">Liên hệ</a>
                 </li>
                 <li class="nav-item dropdown" style="margin-left: 330px; margin-right: 6rem;">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                        <img class="user_image" src="/images/user.png" alt="Hinh ảnh user">
-                        Người dùng
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">
-                            <i class="fa fa-user"></i>   Tài khoản
-                        </a> 
-                        <a class="dropdown-item" href="@Url.Action("Login","Account")">
-                            <i class="fa fa-sign-in"></i>   Đăng nhập
-                        </a>
-                        <a class="dropdown-item" href= "@Url.Action("Logout", "Account")">
-                            <i class="fa fa-sign-out"></i>  Đăng xuất
-                        </a>
-                    </div>
+                    @{if (user != null)
+                        {
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                <img class="user_image" src="/images/user.png" alt="Hinh ảnh user">
+                                @user.tendn.ToString()
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fa fa-user"></i>   Tài khoản
+                                </a>
+                                <a class="dropdown-item" href="@Url.Action("Logout", "Account")">
+                                    <i class="fa fa-sign-out"></i>  Đăng xuất
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                <img class="user_image" src="/images/user.png" alt="Hinh ảnh user">
+                                Người dùng
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fa fa-user"></i>   Tài khoản
+                                </a>
+                                <a class="dropdown-item" href="@Url.Action("Login","Account")">
+                                    <i class="fa fa-sign-in"></i>   Đăng nhập
+                                </a>
+                            </div>
+                        }
+
+                    }
+
                 </li>
             </ul>
         </nav>
