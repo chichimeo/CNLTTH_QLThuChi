@@ -10,7 +10,11 @@ namespace DemoMVC.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            if(Session["User"] != null)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         public ActionResult About()
