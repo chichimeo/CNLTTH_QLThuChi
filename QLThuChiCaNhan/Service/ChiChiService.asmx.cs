@@ -25,39 +25,39 @@ namespace Service
         }
 
         [WebMethod(Description = "Khoan thu theo thang")]
-        public List<CTKhoanThu> KhoanThuTheoThang(string MaThang)
+        public List<CTKhoanThu> KhoanThuTheoThang(string MaThang, int manguoidung)
         {
-            return context.CTKhoanThus.Where(s => s.ngaythu.ToString().Contains(MaThang)).ToList();
+            return context.CTKhoanThus.Where(s => (s.ngaythu.ToString().Contains(MaThang) && s.mand == manguoidung)).ToList();
         }
 
         [WebMethod(Description = "Khoan thu theo thang")]
-        public List<CTKhoanThu> SearchKhoanThuTheoThang(string MaThang, string stringsearch)
+        public List<CTKhoanThu> SearchKhoanThuTheoThang(string MaThang, string stringsearch, int manguoidung)
         {
             return context.CTKhoanThus.Where(s => s.ngaythu.ToString().Contains(MaThang)
-            && (s.tenkhoanthu.Contains(stringsearch))
+            && (s.tenkhoanthu.Contains(stringsearch) && s.mand == manguoidung)
             ).ToList() 
                 ;
         }
 
         [WebMethod(Description = "Khoan chi theo thang")]
-        public List<CTKhoanChi> KhoanChiTheoThang(string MaThang)
+        public List<CTKhoanChi> KhoanChiTheoThang(string MaThang, int manguoidung)
         {
-            return context.CTKhoanChis.Where(s => s.ngaychi.ToString().Contains(MaThang)).ToList();
+            return context.CTKhoanChis.Where(s => s.ngaychi.ToString().Contains(MaThang) && s.mand == manguoidung).ToList();
         }
 
         [WebMethod(Description = "Khoan chi theo thang")]
-        public List<CTKhoanChi> SearchKhoanChiTheoThang(string MaThang, string stringsearch)
+        public List<CTKhoanChi> SearchKhoanChiTheoThang(string MaThang, string stringsearch, int manguoidung)
         {
             return context.CTKhoanChis.Where(s => s.ngaychi.ToString().Contains(MaThang)
-            && (s.tenkhoanchi.Contains(stringsearch))
+            && (s.tenkhoanchi.Contains(stringsearch)) && s.mand == manguoidung
             ).ToList();
         }
 
         [WebMethod(Description = "Khoan thu co dinh")]
-        public List<CTKHoanThuCD> KhoanThuCoDinh(string MaThang)
+        public List<CTKHoanThuCD> KhoanThuCoDinh(string MaThang, int manguoidung)
         {
             int mt = int.Parse(MaThang.Substring(0, 4) + MaThang.Substring(5, 2));
-            List<CTKHoanThuCD> KhoanThuCD = context.CTKHoanThuCDs.ToList();
+            List<CTKHoanThuCD> KhoanThuCD = context.CTKHoanThuCDs.Where(s=> s.mand == manguoidung).ToList();
             for (int i = KhoanThuCD.Count - 1; i >= 0; i--)
             {
                 int ngaybd = int.Parse(KhoanThuCD[i].thangbd.Value.Year.ToString() + KhoanThuCD[i].thangbd.Value.Month.ToString());
@@ -73,11 +73,11 @@ namespace Service
         }
 
         [WebMethod(Description = "Khoan thu co dinh")]
-        public List<CTKHoanThuCD> SearchKhoanThuCoDinh(string MaThang, string searchstring)
+        public List<CTKHoanThuCD> SearchKhoanThuCoDinh(string MaThang, int manguoidung, string searchstring)
         {
             int mt = int.Parse(MaThang.Substring(0, 4) + MaThang.Substring(5, 2));
             List<CTKHoanThuCD> KhoanThuCD = context.CTKHoanThuCDs.Where(s=> 
-            s.tenkhoanthucd.Contains(searchstring)).ToList();
+            s.tenkhoanthucd.Contains(searchstring) && s.mand == manguoidung).ToList();
             for (int i = KhoanThuCD.Count - 1; i >= 0; i--)
             {
                 int ngaybd = int.Parse(KhoanThuCD[i].thangbd.Value.Year.ToString() + KhoanThuCD[i].thangbd.Value.Month.ToString());
@@ -93,10 +93,10 @@ namespace Service
         }
 
         [WebMethod(Description = "Khoan chi co dinh")]
-        public List<CTKhoanChiCD> KhoanChiCoDinh(string MaThang)
+        public List<CTKhoanChiCD> KhoanChiCoDinh(string MaThang, int manguoidung)
         {
             int mt = int.Parse(MaThang.Substring(0, 4) + MaThang.Substring(5, 2));
-            List<CTKhoanChiCD> kccd = context.CTKhoanChiCDs.ToList();
+            List<CTKhoanChiCD> kccd = context.CTKhoanChiCDs.Where(s=> s.mand == manguoidung).ToList();
             for (int i = kccd.Count - 1; i >= 0; i--)
             {
                 int ngaybd = int.Parse(kccd[i].thangbd.Value.Year.ToString() + kccd[i].thangbd.Value.Month.ToString());
@@ -112,11 +112,11 @@ namespace Service
         }
 
         [WebMethod(Description = "Khoan chi co dinh")]
-        public List<CTKhoanChiCD> SearchKhoanChiCoDinh(string MaThang, string stringseach)
+        public List<CTKhoanChiCD> SearchKhoanChiCoDinh(string MaThang, string stringseach, int manguoidung)
         {
             int mt = int.Parse(MaThang.Substring(0, 4) + MaThang.Substring(5, 2));
             List<CTKhoanChiCD> kccd = context.CTKhoanChiCDs.Where(s =>
-            s.tenkhoanchi.Contains(stringseach)).ToList();
+            s.tenkhoanchi.Contains(stringseach) && s.mand == manguoidung).ToList();
             for (int i = kccd.Count - 1; i >= 0; i--)
             {
                 int ngaybd = int.Parse(kccd[i].thangbd.Value.Year.ToString() + kccd[i].thangbd.Value.Month.ToString());
@@ -144,23 +144,23 @@ namespace Service
         }
 
         [WebMethod(Description = "Tim mot khoan thu co dinh")]
-        public CTKHoanThuCD ktcd(int ma)
+        public CTKHoanThuCD ktcd(int ma, int manguoidung)
         {
-            return context.CTKHoanThuCDs.Single(s => s.makhoanthucd == ma);
+            return context.CTKHoanThuCDs.Single(s => s.makhoanthucd == ma && s.mand == manguoidung);
         }
 
         [WebMethod(Description = "Tim mot khoan chi co dinh")]
-        public CTKhoanChiCD kccd(int ma)
+        public CTKhoanChiCD kccd(int ma, int manguoidung)
         {
-            return context.CTKhoanChiCDs.Single(s => s.makhoanchi == ma);
+            return context.CTKhoanChiCDs.Single(s => s.makhoanchi == ma && s.mand == manguoidung);
         }
 
         [WebMethod(Description = "Xoa mot khoan thu co dinh")]
-        public bool XoaKTCD(int ma)
+        public bool XoaKTCD(int ma, int manguoidung)
         {
             try
             {
-                KhoanThuCD kt = context.KhoanThuCDs.Single(sv => sv.makhoanthucd == ma);
+                KhoanThuCD kt = context.KhoanThuCDs.Single(sv => sv.makhoanthucd == ma && sv.mand == manguoidung);
                 kt.thangkt = DateTime.Now.AddMonths(-1);
                 context.SubmitChanges();
                 return true;
@@ -172,11 +172,11 @@ namespace Service
         }
 
         [WebMethod(Description = "Xoa mot khoan thu ")]
-        public bool XoaKT(int ma)
+        public bool XoaKT(int ma, int manguoidung)
         {
             try
             {
-                KhoanThu kt = context.KhoanThus.Single(sv => sv.makhoanthu == ma);
+                KhoanThu kt = context.KhoanThus.Single(sv => sv.makhoanthu == ma && sv.mand == manguoidung);
                 context.KhoanThus.DeleteOnSubmit(kt);
                 context.SubmitChanges();
                 return true;
@@ -187,11 +187,11 @@ namespace Service
             }
         }
         [WebMethod(Description = "Xoa mot khoan chi co dinh")]
-        public bool XoaKCCD(int ma)
+        public bool XoaKCCD(int ma, int manguoidung)
         {
             try
             {
-                KhoanChiCD kt = context.KhoanChiCDs.Single(sv => sv.makhoanchi == ma);
+                KhoanChiCD kt = context.KhoanChiCDs.Single(sv => sv.makhoanchi == ma && sv.mand == manguoidung);
                 kt.thangkt = DateTime.Now.AddMonths(-1);
                 context.SubmitChanges();
                 return true;
@@ -203,11 +203,11 @@ namespace Service
         }
 
         [WebMethod(Description = "Xoa mot khoan chi")]
-        public bool XoaKC(int ma)
+        public bool XoaKC(int ma, int manguoidung)
         {
             try
             {
-                KhoanChi kt = context.KhoanChis.Single(sv => sv.makhoanchi == ma);
+                KhoanChi kt = context.KhoanChis.Single(sv => sv.makhoanchi == ma && sv.mand == manguoidung);
                 context.KhoanChis.DeleteOnSubmit(kt);
                 context.SubmitChanges();
                 return true;
@@ -231,7 +231,7 @@ namespace Service
 
             try
             {
-                KhoanChiCD kt = context.KhoanChiCDs.Single(sv => sv.makhoanchi == news.makhoanchi);
+                KhoanChiCD kt = context.KhoanChiCDs.Single(sv => sv.makhoanchi == news.makhoanchi &&sv.mand==news.mand );
                 kt.tenkhoanchi = news.tenkhoanchi;
                 kt.tienchicd = news.tienchicd;
                 kt.thangbd = news.thangbd;
@@ -258,6 +258,7 @@ namespace Service
                 kt.thangbd = news.thangbd;
                 kt.thangkt = news.thangkt;
                 kt.maloaichi = news.maloaichi;
+                kt.mand = news.mand;
                 context.KhoanChiCDs.InsertOnSubmit(kt);
                 context.SubmitChanges();
                 return true;
