@@ -1,0 +1,135 @@
+﻿
+@{
+    ViewBag.Title = "Biểu đồ thu chi";
+    var tienchi = ViewBag.tienchi;
+    var tienthu = ViewBag.tienthu;
+    var length1 = ViewBag.lengthchi;
+    var length2 = ViewBag.lengththu;
+    var tongchi = ViewBag.tongchi;
+    var tongthu = ViewBag.tongthu;
+
+
+    var chitheoloai = ViewBag.chitheoloai;
+    var thutheoloai = ViewBag.thutheoloai;
+}
+
+    <h2 class="col">Chi tiêu cá nhân</h2>
+    <div class="row">
+        <div class="col-md-6 col-lg-6 col-sm-6" style="float: left;">
+            <span style="margin:20px; color:orangered; font-size:18px;">Tổng chi tháng 12 - 2020:
+                <span style="font-weight:600;" >@tongchi.ToString("N0") đ</span></span>
+            <div class="income" style="margin-top:50px;">
+                @foreach (var item in chitheoloai)
+                {
+
+                    <div class="row" style="margin:10px">
+                        <div class="col-lg-4" style="font-weight:500">@item.tenloaichi</div>
+                        @{
+                            var x = int.Parse(item.TongChi.ToString());
+
+                            var y = int.Parse((x * 300 / int.Parse(@tongchi.ToString())).ToString());
+                            var height = y.ToString() + "px";
+                        }
+                        <div class="col-lg-8" style="display: inline-flex">
+                            <div class="bg-danger" style="height:30px; width: @height;"></div>
+                            <div>@item.TongChi.ToString("N0")</div>
+                        </div>
+                    </div>
+                }
+                @*<div class="chartincome">
+                    <div id="myLegend"></div>
+                    <canvas id="myCanvas1"></canvas>
+                </div>*@
+            </div>
+            
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6" style="float: right;">
+            <span style="margin: 20px;color:cornflowerblue; font-size: 18px;">Tổng thu tháng 12 - 2020: 
+                <span style="font-weight:600;">@tongthu.ToString("N0") đ</span></span>
+            <div class="outcome" style="margin-top:50px;">
+                @foreach (var item in thutheoloai)
+                {
+                    <div class="row" style="margin:5px">
+                        <div class="col-lg-4"style="font-weight:500">@item.tenloaithu</div>
+                        @{
+                            var x = int.Parse(item.TongThu.ToString());
+                            var y = int.Parse((x * 300 / int.Parse(@tongthu.ToString())).ToString());
+                            var height = y.ToString() + "px";
+                        }
+                        <div class="col-lg-8" style="display: inline-flex">
+                            <div class="bg-primary" style="height:30px; width: @height;"></div>
+                            <div>@item.TongThu.ToString("N0")</div>
+                        </div>
+                    </div>
+                }
+            </div>
+                @*<div class="chartoutcome">
+                    <div id="myLegend2"></div>
+                    <canvas id="myCanvas2"></canvas>
+                </div>*@
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+
+        function loaichi(tien) {
+            this.loai = tien;
+        }
+        var chi = {};
+        for(var x in @chitheoloai)
+        {
+            var key = x.tenloaichi;
+            var value = x.TongChi;
+            chi[key] =  value;
+        };
+
+    var myDougnutChart1 = new Piechart(
+        {
+            canvas: myCanvas1,
+
+            data: chi,
+
+            colors: ["#fde23e", "#f16e23", "#57d9ff", "#937e88", "#857e88", "#b57e82"],
+
+            doughnutHoleSize: 0.5,
+            legend: myLegend
+
+        }
+    );
+
+    myDougnutChart1.draw();
+
+    // dữ liệu chart 1
+    var thu = {};
+    @*for (let i = 0; i <@length2; i++) {
+
+        chi[@loaithu] = @tienthu[i];
+    }*@
+
+    var myDougnutChart2 = new Piechart(
+        {
+            canvas: myCanvas2,
+
+            data: thu,
+
+            colors: ["#fde23e", "#f16e23", "#57d9ff", "#937e88", "#857e88", "#b57e82"],
+
+            doughnutHoleSize: 0.5,
+            legend: myLegend2
+
+        }
+    );
+    myDougnutChart2.draw();
+    </script>
+<script type="text/javascript" src="~/Scripts/chart.js"></script>
+
