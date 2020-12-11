@@ -90,17 +90,33 @@ namespace Service
         }
 
         [WebMethod(Description = "Tinh tong chi theo loai trong thang tuong ung cua nguoi dung")]
-        public Dictionary<string, int> tinhTongChiTheoLoai(int id, int thang, int nam)
+        public int tinhTongChiTheoLoai(int id, int thang, int nam, int maloai)
         {
-            Dictionary<string, int> d = new Dictionary<string, int>();
-            var u = context.TongChiTheoLoais.Where(x => x.mand.Equals(id) && x.thangchi == thang && x.namchi == nam).ToList();
-            for(int i = u.Count()-1; i>=0; i--)
-            {
-                string lc = u[i].tenloaichi;
-                int tc = int.Parse(u[i].TongChi.ToString());
-                d.Add(lc, tc);
-            }
+            var u = context.TongChiTheoLoais.Single(x => x.mand.Equals(id) && x.thangchi == thang && x.namchi == nam && x.maloaichi.Equals(maloai));
+            int d = int.Parse(u.TongChi.ToString());
             return d;
+        }
+
+        [WebMethod(Description = "Tinh tong thu theo loai trong thang tuong ung cua nguoi dung")]
+        public int tinhTongThuTheoLoai(int id, int thang, int nam, int maloai)
+        {
+            var u = context.TongThuTheoLoais.Single(x => x.mand.Equals(id) && x.thangthu == thang && x.namthu == nam && x.maloaithu.Equals(maloai));
+            int d = int.Parse(u.TongThu.ToString());
+            return d;
+        }
+
+        [WebMethod(Description = "Liet ke tong chi theo loai")]
+        public List<TongChiTheoLoai> DSChiTheoLoai(int id, int thang, int nam)
+        {
+            List<TongChiTheoLoai> list = context.TongChiTheoLoais.Where(x => x.mand.Equals(id) && x.thangchi == thang && x.namchi == nam).ToList();
+            return list;
+        }
+
+        [WebMethod(Description = "Liet ke tong thu theo loai")]
+        public List<TongThuTheoLoai> DSThuTheoLoai(int id, int thang, int nam)
+        {
+            List<TongThuTheoLoai> list = context.TongThuTheoLoais.Where(x => x.mand.Equals(id) && x.thangthu == thang && x.namthu == nam).ToList();
+            return list;
         }
 
 

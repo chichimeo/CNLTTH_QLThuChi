@@ -25,7 +25,7 @@ namespace DemoMVC.Controllers
                 if(user != null)
                 {
                     Session["User"] = user;
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("ChiTieu", "SoChiTieu");
                 }
                 else
                 {
